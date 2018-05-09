@@ -1,4 +1,5 @@
 library(rgl)
+library(htmlwidgets)
 
 #' 
 #' @description 
@@ -50,7 +51,9 @@ plot_pdf3d <- function(xpoints, ypoints, zpoints){
   )
   
   # view from a specific point
-  rgl.viewpoint(userMatrix = rotationMatrix(1.5, -0.5, 0.2, 0.4)) 
+  rgl.viewpoint(userMatrix = rotationMatrix(1.5, -0.5, 0.2, 0.4))
+  
+  return(scene3d())
 }
 
 
@@ -118,19 +121,22 @@ plot_trend_normal <- function(slope, intercept, volatility, xlim, ylim, step){
 }
 
 
-setwd("C:/Users/Wenyao/Desktop/R/Brownian_Motion_Visualization/")
 
-plot_brownian_motion(drift = 0, volatility = 1, xlim = c(0, 10), ylim = c(-5, 5), step = 100)
-writeWebGL(filename = "./webGL/bm1.html", width = 500, height = 500)
 
-plot_brownian_motion(drift = 1, volatility = 1, xlim = c(0, 10), ylim = c(-5, 5), step = 100)
-writeWebGL(filename = "./webGL/bm2.html", width = 500, height = 500)
+bm1 <- plot_brownian_motion(drift = 0, volatility = 1, xlim = c(0, 10), ylim = c(-5, 5), step = 100)
 
-plot_trend_normal(slope = 0, intercept = 0, volatility = 1, xlim = c(-5, 5), ylim = c(-5, 5), step = 100)
-writeWebGL(filename = "./webGL/tn1.html", width = 500, height = 500)
+bm2 <- plot_brownian_motion(drift = 1, volatility = 1, xlim = c(0, 10), ylim = c(-5, 5), step = 100)
 
-plot_trend_normal(slope = 1, intercept = 1, volatility = 1, xlim = c(-5, 5), ylim = c(-5, 5), step = 100)
-writeWebGL(filename = "./webGL/tn2.html", width = 500, height = 500)
+tn1 <- plot_trend_normal(slope = 0, intercept = 0, volatility = 1, xlim = c(-5, 5), ylim = c(-5, 5), step = 100)
+
+tn2 <- plot_trend_normal(slope = 1, intercept = 1, volatility = 1, xlim = c(-5, 5), ylim = c(-5, 5), step = 100)
+
+setwd("C:/Users/Wenyao/Desktop/R/Brownian_Motion_Visualization/webGL")
+rglwidget(x = bm1) %>% saveWidget(file = "bm1.html")
+rglwidget(x = bm2) %>% saveWidget(file = "bm2.html")
+rglwidget(x = tn1) %>% saveWidget(file = "tn1.html")
+rglwidget(x = tn2) %>% saveWidget(file = "tn2.html")
+
 
 
 
