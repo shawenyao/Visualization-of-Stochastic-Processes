@@ -1,5 +1,5 @@
 
-Drag to rotate and scroll to zoom in/out.
+Drag to rotate and scroll to zoom in/out if your device supports WebGL.
 
 ## Brownian Motion Models
 
