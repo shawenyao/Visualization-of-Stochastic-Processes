@@ -7,10 +7,10 @@ Click here https://shawenyao.github.io/Brownian_Motion_Visualization/
 ![Brownian Motion](http://latex.codecogs.com/gif.latex?X_t%20%3D%20%5Cmu%20t%20&plus;%20%5Csigma%20W_t)
 
 ### Brownian Motion without Drift
-<iframe height="550" width="550" src="https://shawenyao.github.io/Brownian_Motion_Visualization/webGL/bm1.html"></iframe>
+<iframe height="550" width="550" frameBorder="0" src="https://shawenyao.github.io/Brownian_Motion_Visualization/webGL/bm1.html"></iframe>
 
 ### Brownian Motion with Drift
-<iframe height="550" width="550" src="https://shawenyao.github.io/Brownian_Motion_Visualization/webGL/bm2.html"></iframe>
+<iframe height="550" width="550" frameBorder="0" src="https://shawenyao.github.io/Brownian_Motion_Visualization/webGL/bm2.html"></iframe>
 
 
 ## Trend Normal Models
@@ -19,8 +19,8 @@ Click here https://shawenyao.github.io/Brownian_Motion_Visualization/
 
 ### Trend Normal with no slope
 
-<iframe height="550" width="550" src="https://shawenyao.github.io/Brownian_Motion_Visualization/webGL/tn1.html"></iframe>
+<iframe height="550" width="550" frameBorder="0" src="https://shawenyao.github.io/Brownian_Motion_Visualization/webGL/tn1.html"></iframe>
 
 ### Trend Normal with slope
 
-<iframe height="550" width="550" src="https://shawenyao.github.io/Brownian_Motion_Visualization/webGL/tn2.html"></iframe>
+<iframe height="550" width="550" frameBorder="0" src="https://shawenyao.github.io/Brownian_Motion_Visualization/webGL/tn2.html"></iframe>
