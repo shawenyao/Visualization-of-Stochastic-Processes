@@ -132,15 +132,25 @@ tn1 <- plot_trend_normal(slope = 0, intercept = 0, volatility = 1, xlim = c(-5, 
 
 tn2 <- plot_trend_normal(slope = 1, intercept = 1, volatility = 1, xlim = c(-5, 5), ylim = c(-5, 5), step = 100)
 
+
 setwd("C:/Users/Wenyao/Desktop/R/Brownian_Motion_Visualization/webGL")
+
 list(
   rglscene = list(bm1, bm2, tn1, tn2),
   description=c("bm1", "bm2", "tn1", "tn2")
 ) %>% 
   pmap(
     function(rglscene, description){
-      rglwidget(x = rglscene, width = 500, height = 500) %>% 
-        saveWidget(file = paste0(description, ".html"), selfcontained = FALSE, libdir = "files")
+      rglwidget(
+        x = rglscene, 
+        width = 450, 
+        height = 450
+      ) %>% 
+        saveWidget(
+          file = paste0(description, ".html"), 
+          selfcontained = FALSE, 
+          libdir = "files"
+        )
     }
   ) 
 
