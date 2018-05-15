@@ -1,3 +1,3 @@
-# Brownian Motion Visualization
+# Visualization of Stochastic Processes
 
-Click here https://shawenyao.github.io/Brownian_Motion_Visualization/
+Click here https://shawenyao.github.io/Visualization-of-Stochastic-Processes/
