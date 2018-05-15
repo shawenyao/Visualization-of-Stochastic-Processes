@@ -19,7 +19,7 @@ plot_3d_surface <- function(xpoints, ypoints, zpoints){
   
   # plot the probablity density functions
   lapply(
-    1:length(xpoints),
+    seq_along(xpoints),
     function(i){
       lines3d(
         x = xpoints[i], 
@@ -33,7 +33,7 @@ plot_3d_surface <- function(xpoints, ypoints, zpoints){
   
   # plot the highest points
   lapply(
-    1:length(xpoints),
+    seq_along(xpoints),
     function(i){
       plot3d(
         x = xpoints[i], 
@@ -73,8 +73,8 @@ plot_trend_stationary <- function(beta, sigma, x0, xlim, ylim, step){
   ypoints <- seq(from = ylim[1], to = ylim[2], length = step)
   zpoints <- matrix(
     dnorm(
-      x = rep(ypoints, times = length(xpoints)),
-      mean = beta * rep(xpoints, each = length(ypoints)) + x0,
+      x = rep(ypoints, times = step),
+      mean = beta * rep(xpoints, each = step) + x0,
       sd = sigma
     ),
     nrow = step,
@@ -109,9 +109,9 @@ plot_brownian_motion <- function(miu, sigma, x0, xlim, ylim, step){
   ypoints <- seq(from = ylim[1], to = ylim[2], length = step)
   zpoints <- matrix(
     dnorm(
-      x = rep(ypoints, times = length(xpoints)),
-      mean = rep(xpoints, each = length(ypoints)) * miu + x0,
-      sd = sqrt(rep(xpoints, each = length(ypoints)) - xpoints[1]) * sigma
+      x = rep(ypoints, times = step),
+      mean = rep(xpoints, each = step) * miu + x0,
+      sd = sqrt(rep(xpoints, each = step) - xpoints[1]) * sigma
     ),
     nrow = step,
     ncol = step,
@@ -145,9 +145,9 @@ plot_geo_brownian_motion <- function(miu, sigma, x0, xlim, ylim, step){
   ypoints <- seq(from = ylim[1], to = ylim[2], length = step)
   zpoints <- matrix(
     dlnorm(
-      x = rep(ypoints, times = length(xpoints)),
-      meanlog = rep(xpoints, each = length(ypoints)) * (miu - 0.5 * sigma^2) + log(x0),
-      sdlog = sqrt(rep(xpoints, each = length(ypoints)) - xpoints[1]) * sigma
+      x = rep(ypoints, times = step),
+      meanlog = rep(xpoints, each = step) * (miu - 0.5 * sigma^2) + log(x0),
+      sdlog = sqrt(rep(xpoints, each = step) - xpoints[1]) * sigma
     ),
     nrow = step,
     ncol = step,
@@ -182,10 +182,10 @@ plot_vasicek <- function(a, b, sigma, x0, xlim, ylim, step){
   ypoints <- seq(from = ylim[1], to = ylim[2], length = step)
   zpoints <- matrix(
     dnorm(
-      x = rep(ypoints, times = length(xpoints)),
-      mean = x0 * exp(-a * rep(xpoints, each = length(ypoints))) + 
-        b * (1 - exp(-a * rep(xpoints, each = length(ypoints)))),
-      sd = sqrt(sigma^2 / (2 * a) * (1 - exp(-2 * a * rep(xpoints, each = length(ypoints)))))
+      x = rep(ypoints, times = step),
+      mean = x0 * exp(-a * rep(xpoints, each = step)) + 
+        b * (1 - exp(-a * rep(xpoints, each = step))),
+      sd = sqrt(sigma^2 / (2 * a) * (1 - exp(-2 * a * rep(xpoints, each = step))))
     ),
     nrow = step,
     ncol = step,
@@ -220,11 +220,11 @@ plot_CIR <- function(a, b, sigma, x0, xlim, ylim, step){
   ypoints <- seq(from = ylim[1], to = ylim[2], length = step)
   zpoints <- matrix(
     dchisq(
-      x = rep(ypoints, times = length(xpoints)) *
-        2 * (2 * a / ((1 - exp(-a * rep(xpoints, each = length(ypoints)))) * sigma^2)),
+      x = rep(ypoints, times = step) *
+        2 * (2 * a / ((1 - exp(-a * rep(xpoints, each = step))) * sigma^2)),
       df = 4 * a * b / sigma^2,
-      ncp = 2 * (2 * a / ((1 - exp(-a * rep(xpoints, each = length(ypoints)))) * sigma^2)) * 
-        x0 * exp(-a * rep(xpoints, each = length(ypoints)))
+      ncp = 2 * (2 * a / ((1 - exp(-a * rep(xpoints, each = step))) * sigma^2)) * 
+        x0 * exp(-a * rep(xpoints, each = step))
     ),
     nrow = step,
     ncol = step,
