@@ -1,6 +1,4 @@
-#' 
-#' @description 
-#' plot the evolution of a specific probability desnity function over time
+#' plot a 3-D surface
 #' 
 #' @param xpoints
 #' @param ypoints
@@ -8,15 +6,15 @@
 #' 
 #' @return an rgl scene object
 #' 
-plot_pdf3d <- function(xpoints, ypoints, zpoints){
+plot_3d_surface <- function(xpoints, ypoints, zpoints){
   open3d()
   
-  # plot the origin
+  # plot the origin point
   plot3d(
     x = 0, y = 0, z = 0,
     xlim = range(xpoints), ylim = range(ypoints), zlim = c(0, 1),
-    size=5, col="red",
-    xlab="t", ylab="x", zlab="f(x)"
+    size = 5, col = "grey",
+    xlab = "t", ylab = "x", zlab = "f(x)"
   )
   
   # plot the probablity density functions
@@ -48,72 +46,193 @@ plot_pdf3d <- function(xpoints, ypoints, zpoints){
     }
   )
   
-  # view from a specific point
+  # set camera angle
   rgl.viewpoint(userMatrix = rotationMatrix(1.5, -0.5, 0.2, 0.4))
   
   return(scene3d())
 }
 
 
+#' visulize the probabiltiy density function of trend stationary model
+#' 
 #' @description 
-#' visulize the probabiltiy density function of Brownian motion
+#' dX(t) = beta * dt
 #' 
-#' @param drift
+#' @param beta slope
+#' @param sigma instantaneous volatility
+#' @param x0 initial value at time 0
 #' @param xlim
-#' @param step
 #' @param ylim
-#' @param ystep
+#' @param step
 #' 
-#' @return 
+#' @return an rgl scene object
 #' 
-plot_brownian_motion <- function(drift, volatility, xlim, ylim, step){
+plot_trend_stationary <- function(beta, sigma, x0, xlim, ylim, step){
   
   xpoints <- seq(from = xlim[1], to = xlim[2], length = step)
   ypoints <- seq(from = ylim[1], to = ylim[2], length = step)
   zpoints <- matrix(
     dnorm(
       x = rep(ypoints, times = length(xpoints)),
-      mean = xpoints[1] + rep(xpoints, each = length(ypoints)) * drift,
-      sd = sqrt(rep(xpoints, each = length(ypoints)) - xpoints[1]) * volatility
+      mean = beta * rep(xpoints, each = length(ypoints)) + x0,
+      sd = sigma
     ),
     nrow = length(xpoints),
     ncol = length(ypoints),
     byrow = TRUE
   )
   
-  # disregard the deterministic case of Brownian motion at time 0
+  # disregard the deterministic case time 0
   zpoints[1,] <- NA
   
-  plot_pdf3d(xpoints = xpoints, ypoints = ypoints, zpoints = zpoints)
+  plot_3d_surface(xpoints = xpoints, ypoints = ypoints, zpoints = zpoints)
 }
 
+
+#' visulize the probabiltiy density function of Brownian motion
+#' 
 #' @description 
-#' visulize the probabiltiy density function of trend normal model
+#' dX(t) = miu * dt + sigma * dW(t)
 #' 
-#' @param slope
-#' @param intercept
-#' @param volatility
+#' @param miu drift
+#' @param sigma instantaneous volatility
+#' @param x0 initial value at time 0
 #' @param xlim
-#' @param step
 #' @param ylim
-#' @param ystep
+#' @param step
 #' 
-#' @return 
+#' @return an rgl scene object
 #' 
-plot_trend_normal <- function(slope, intercept, volatility, xlim, ylim, step){
+plot_brownian_motion <- function(miu, sigma, x0, xlim, ylim, step){
   
   xpoints <- seq(from = xlim[1], to = xlim[2], length = step)
   ypoints <- seq(from = ylim[1], to = ylim[2], length = step)
   zpoints <- matrix(
     dnorm(
       x = rep(ypoints, times = length(xpoints)),
-      mean = slope * rep(xpoints, each = length(ypoints)) + intercept,
-      sd = volatility
+      mean = rep(xpoints, each = length(ypoints)) * miu + x0,
+      sd = sqrt(rep(xpoints, each = length(ypoints)) - xpoints[1]) * sigma
     ),
     nrow = length(xpoints),
     ncol = length(ypoints),
     byrow = TRUE
   )
   
-  plot_pdf3d(xpoints = xpoints, ypoints = ypoints, zpoints = zpoints)
+  # disregard the deterministic case time 0
+  zpoints[1,] <- NA
+  
+  plot_3d_surface(xpoints = xpoints, ypoints = ypoints, zpoints = zpoints)
+}
+
+
+#' visulize the probabiltiy density function of geometric Brownian motion
+#' 
+#' @description 
+#' dX(t) = miu * X(t) * dt + sigma * X(t) * dW(t)
+#' 
+#' @param miu drift
+#' @param sigma instantaneous volatility
+#' @param x0 initial value at time 0
+#' @param xlim
+#' @param ylim
+#' @param step
+#' 
+#' @return an rgl scene object
+#' 
+plot_geo_brownian_motion <- function(miu, sigma, x0, xlim, ylim, step){
+  
+  xpoints <- seq(from = xlim[1], to = xlim[2], length = step)
+  ypoints <- seq(from = ylim[1], to = ylim[2], length = step)
+  zpoints <- matrix(
+    dlnorm(
+      x = rep(ypoints, times = length(xpoints)),
+      meanlog = rep(xpoints, each = length(ypoints)) * (miu - 0.5 * sigma^2) + log(x0),
+      sdlog = sqrt(rep(xpoints, each = length(ypoints)) - xpoints[1]) * sigma
+    ),
+    nrow = length(xpoints),
+    ncol = length(ypoints),
+    byrow = TRUE
+  )
+  
+  # disregard the deterministic case time 0
+  zpoints[1,] <- NA
+  
+  plot_3d_surface(xpoints = xpoints, ypoints = ypoints, zpoints = zpoints)
+}
+
+
+#' visulize the probabiltiy density function of Vasicek model
+#' 
+#' @description 
+#' dX(t) = a * (b - X(t)) * dt + sigma * dW(t)
+#' 
+#' @param a the speed of reversion
+#' @param b long term mean level
+#' @param sigma instantaneous volatility
+#' @param x0 initial value at time 0
+#' @param xlim
+#' @param ylim
+#' @param step
+#' 
+#' @return an rgl scene object
+#' 
+plot_vasicek <- function(a, b, sigma, x0, xlim, ylim, step){
+  
+  xpoints <- seq(from = xlim[1], to = xlim[2], length = step)
+  ypoints <- seq(from = ylim[1], to = ylim[2], length = step)
+  zpoints <- matrix(
+    dnorm(
+      x = rep(ypoints, times = length(xpoints)),
+      mean = x0 * exp(-a * rep(xpoints, each = length(ypoints))) + 
+        b * (1 - exp(-a * rep(xpoints, each = length(ypoints)))),
+      sd = sqrt(sigma^2 / (2 * a) * (1 - exp(-2 * a * rep(xpoints, each = length(ypoints)))))
+    ),
+    nrow = length(xpoints),
+    ncol = length(ypoints),
+    byrow = TRUE
+  )
+  
+  # disregard the deterministic case time 0
+  zpoints[1,] <- NA
+  
+  plot_3d_surface(xpoints = xpoints, ypoints = ypoints, zpoints = zpoints)
+}
+
+
+#' visulize the probabiltiy density function of Cox–Ingersoll–Ross model
+#' 
+#' @description 
+#' dX(t) = a * (b - X(t)) * dt + sigma * sqrt(X(t)) * dW(t)
+#' 
+#' @param a the speed of reversion
+#' @param b long term mean level
+#' @param sigma instantaneous volatility
+#' @param x0 initial value at time 0
+#' @param xlim
+#' @param ylim
+#' @param step
+#' 
+#' @return an rgl scene object
+#' 
+plot_CIR <- function(a, b, sigma, x0, xlim, ylim, step){
+  
+  xpoints <- seq(from = xlim[1], to = xlim[2], length = step)
+  ypoints <- seq(from = ylim[1], to = ylim[2], length = step)
+  zpoints <- matrix(
+    dchisq(
+      x = rep(ypoints, times = length(xpoints)) *
+        2 * (2 * a / ((1 - exp(-a * rep(xpoints, each = length(ypoints)))) * sigma^2)),
+      df = 4 * a * b / sigma^2,
+      ncp = 2 * (2 * a / ((1 - exp(-a * rep(xpoints, each = length(ypoints)))) * sigma^2)) * 
+        x0 * exp(-a * rep(xpoints, each = length(ypoints)))
+    ),
+    nrow = length(xpoints),
+    ncol = length(ypoints),
+    byrow = TRUE
+  )
+  
+  # disregard the deterministic case time 0
+  zpoints[1,] <- NA
+  
+  plot_3d_surface(xpoints = xpoints, ypoints = ypoints, zpoints = zpoints)
 }
