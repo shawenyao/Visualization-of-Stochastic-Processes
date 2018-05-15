@@ -56,10 +56,10 @@ plot_3d_surface <- function(xpoints, ypoints, zpoints){
 #' visulize the probabiltiy density function of trend stationary model
 #' 
 #' @description 
-#' dX(t) = beta * dt
+#' X(t) = X(0) + beta * dt + epsilon(t)
 #' 
 #' @param beta slope
-#' @param sigma instantaneous volatility
+#' @param sigma standard deviation of error term
 #' @param x0 initial value at time 0
 #' @param xlim
 #' @param ylim
