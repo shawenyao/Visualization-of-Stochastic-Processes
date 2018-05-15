@@ -12,7 +12,7 @@ plot_3d_surface <- function(xpoints, ypoints, zpoints){
   # plot the origin point
   plot3d(
     x = 0, y = 0, z = 0,
-    xlim = range(xpoints), ylim = range(ypoints), zlim = c(0, max(zpoints, na.rm = TRUE))
+    xlim = range(xpoints), ylim = range(ypoints), zlim = c(0, max(zpoints, na.rm = TRUE)),
     size = 5, col = "grey",
     xlab = "t", ylab = "x", zlab = "f(x)"
   )
