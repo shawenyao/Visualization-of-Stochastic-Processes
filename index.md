@@ -21,7 +21,7 @@ Drag to rotate and scroll to zoom in/out if your device supports WebGL.
 <iframe height="550" width="550" frameBorder="0" src="https://shawenyao.github.io/Brownian_Motion_Visualization/webGL/bm2.html"></iframe>
 
 ### Geometric Brownian Motion
-<iframe height="550" width="550" frameBorder="0" src="https://shawenyao.github.io/Brownian_Motion_Visualization/webGL/gm.html"></iframe>
+<iframe height="550" width="550" frameBorder="0" src="https://shawenyao.github.io/Brownian_Motion_Visualization/webGL/gb.html"></iframe>
 
 ## Interest Rate Models
 
