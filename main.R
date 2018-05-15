@@ -19,7 +19,7 @@ bm1 <- plot_brownian_motion(miu = 0, sigma = 1, x0 = 0, xlim = c(0, 5), ylim = c
 bm2 <- plot_brownian_motion(miu = 1, sigma = 1, x0 = 0, xlim = c(0, 5), ylim = c(-5, 5), step = 50)
 
 # Geometric Brownian Motion with drift
-gm <- plot_geo_brownian_motion(miu = 0.1, sigma = 0.5, x0 = 2.5, xlim = c(0, 5), ylim = c(0, 5), step = 50)
+gb <- plot_geo_brownian_motion(miu = 0.1, sigma = 0.5, x0 = 2.5, xlim = c(0, 5), ylim = c(0, 5), step = 50)
 
 # Vasicek model
 vasicek <- plot_vasicek(a = 1, b = 3, sigma = 1, x0 = 0.01, xlim = c(0, 5), ylim = c(-1, 4), step = 50)
@@ -31,8 +31,8 @@ setwd("./webGL")
 
 # write to html
 list(
-  rglscene = list(tn1, tn2, bm1, bm2, gm, vasicek, CIR),
-  description=c("tn1", "tn2", "bm1", "bm2", "gm", "vasicek", "CIR")
+  rglscene = list(tn1, tn2, bm1, bm2, gb, vasicek, CIR),
+  description=c("tn1", "tn2", "bm1", "bm2", "gb", "vasicek", "CIR")
 ) %>% 
   pmap(
     function(rglscene, description){
