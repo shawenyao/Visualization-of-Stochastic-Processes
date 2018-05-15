@@ -19,7 +19,7 @@ bm1 <- plot_brownian_motion(miu = 0, sigma = 1, x0 = 0, xlim = c(0, 5), ylim = c
 bm2 <- plot_brownian_motion(miu = 1, sigma = 1, x0 = 0, xlim = c(0, 5), ylim = c(-5, 5), step = 50)
 
 # Geometric Brownian Motion with drift
-gm <- plot_geo_brownian_motion(miu = 1, sigma = 1, x0 = 2.5, xlim = c(0, 5), ylim = c(0, 5), step = 50)
+gm <- plot_geo_brownian_motion(miu = 0.1, sigma = 0.5, x0 = 2.5, xlim = c(0, 5), ylim = c(0, 5), step = 50)
 
 # Vasicek model
 vasicek <- plot_vasicek(a = 1, b = 4, sigma = 1, x0 = 0, xlim = c(0, 5), ylim = c(-5, 5), step = 50)
