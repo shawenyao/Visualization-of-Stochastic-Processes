@@ -2,13 +2,13 @@
 Drag to rotate and scroll to zoom in/out if your device supports WebGL.
 
 
-## Trend Normal Models
+## Trend Stationary Models
 ![Trend Normal](https://latex.codecogs.com/gif.latex?X_t%20%3D%20%5Cbeta%20_0%20+%20%5Cbeta%20_1%20t%20+%20%5Cepsilon_t)
 
-### Trend Normal without Slope
+### Trend Stationary without Slope
 <iframe height="550" width="550" frameBorder="0" src="https://shawenyao.github.io/Brownian_Motion_Visualization/webGL/tn1.html"></iframe>
 
-### Trend Normal with Slope
+### Trend Stationary with Slope
 <iframe height="550" width="550" frameBorder="0" src="https://shawenyao.github.io/Brownian_Motion_Visualization/webGL/tn2.html"></iframe>
 
 ## Brownian Motion Models
