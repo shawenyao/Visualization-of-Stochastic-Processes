@@ -25,7 +25,7 @@ gm <- plot_geo_brownian_motion(miu = 1, sigma = 1, x0 = 2.5, xlim = c(0, 5), yli
 vasicek <- plot_vasicek(a = 1, b = 4, sigma = 1, x0 = 0, xlim = c(0, 5), ylim = c(-5, 5), step = 50)
 
 # Cox–Ingersoll–Ross model
-CIR <- plot_CIR(a = 2, b = 4, sigma = 1, x0 = 1, xlim = c(0, 5), ylim = c(0, 5), step = 50)
+CIR <- plot_CIR(a = 2, b = 4, sigma = 3, x0 = 1, xlim = c(0, 5), ylim = c(0, 5), step = 50)
 
 setwd("./webGL")
 

@@ -77,8 +77,8 @@ plot_trend_stationary <- function(beta, sigma, x0, xlim, ylim, step){
       mean = beta * rep(xpoints, each = length(ypoints)) + x0,
       sd = sigma
     ),
-    nrow = length(xpoints),
-    ncol = length(ypoints),
+    nrow = step,
+    ncol = step,
     byrow = TRUE
   )
   
@@ -113,8 +113,8 @@ plot_brownian_motion <- function(miu, sigma, x0, xlim, ylim, step){
       mean = rep(xpoints, each = length(ypoints)) * miu + x0,
       sd = sqrt(rep(xpoints, each = length(ypoints)) - xpoints[1]) * sigma
     ),
-    nrow = length(xpoints),
-    ncol = length(ypoints),
+    nrow = step,
+    ncol = step,
     byrow = TRUE
   )
   
@@ -149,8 +149,8 @@ plot_geo_brownian_motion <- function(miu, sigma, x0, xlim, ylim, step){
       meanlog = rep(xpoints, each = length(ypoints)) * (miu - 0.5 * sigma^2) + log(x0),
       sdlog = sqrt(rep(xpoints, each = length(ypoints)) - xpoints[1]) * sigma
     ),
-    nrow = length(xpoints),
-    ncol = length(ypoints),
+    nrow = step,
+    ncol = step,
     byrow = TRUE
   )
   
@@ -187,8 +187,8 @@ plot_vasicek <- function(a, b, sigma, x0, xlim, ylim, step){
         b * (1 - exp(-a * rep(xpoints, each = length(ypoints)))),
       sd = sqrt(sigma^2 / (2 * a) * (1 - exp(-2 * a * rep(xpoints, each = length(ypoints)))))
     ),
-    nrow = length(xpoints),
-    ncol = length(ypoints),
+    nrow = step,
+    ncol = step,
     byrow = TRUE
   )
   
@@ -226,8 +226,8 @@ plot_CIR <- function(a, b, sigma, x0, xlim, ylim, step){
       ncp = 2 * (2 * a / ((1 - exp(-a * rep(xpoints, each = length(ypoints)))) * sigma^2)) * 
         x0 * exp(-a * rep(xpoints, each = length(ypoints)))
     ),
-    nrow = length(xpoints),
-    ncol = length(ypoints),
+    nrow = step,
+    ncol = step,
     byrow = TRUE
   )
   
