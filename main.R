@@ -2,7 +2,7 @@ library(rgl)
 library(htmlwidgets)
 library(purrr)
 
-setwd("C:/Users/Wenyao/Desktop/R/Brownian_Motion_Visualization")
+setwd("C:/Users/Wenyao/Desktop/R/Visualization-of-Stochastic-Processes")
 source("./functions.R")
 
 
