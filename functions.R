@@ -19,7 +19,8 @@ plot_3d_surface <- function(xpoints, ypoints, zpoints){
   
   # plot the probablity density functions
   lapply(
-    seq_along(xpoints),
+    # disregard the deterministic case at time 0
+    seq_along(xpoints)[-1],
     function(i){
       lines3d(
         x = xpoints[i], 
@@ -33,7 +34,8 @@ plot_3d_surface <- function(xpoints, ypoints, zpoints){
   
   # plot the highest points
   lapply(
-    seq_along(xpoints),
+    # disregard the deterministic case at time 0
+    seq_along(xpoints)[-1],
     function(i){
       plot3d(
         x = xpoints[i], 
@@ -47,7 +49,7 @@ plot_3d_surface <- function(xpoints, ypoints, zpoints){
   )
   
   # set camera angle
-  rgl.viewpoint(userMatrix = rotationMatrix(1.5, -0.5, 0.2, 0.4))
+  rgl.viewpoint(userMatrix = rotationMatrix(1.5, -0.5, 0.2, 0.4), zoom = 0.9)
   
   return(scene3d())
 }
@@ -82,7 +84,7 @@ plot_trend_stationary <- function(beta, sigma, x0, xlim, ylim, step){
     byrow = TRUE
   )
   
-  # disregard the deterministic case time 0
+  # disregard the deterministic case at time 0
   zpoints[1,] <- NA
   
   plot_3d_surface(xpoints = xpoints, ypoints = ypoints, zpoints = zpoints)
@@ -118,7 +120,7 @@ plot_brownian_motion <- function(miu, sigma, x0, xlim, ylim, step){
     byrow = TRUE
   )
   
-  # disregard the deterministic case time 0
+  # disregard the deterministic case at time 0
   zpoints[1,] <- NA
   
   plot_3d_surface(xpoints = xpoints, ypoints = ypoints, zpoints = zpoints)
@@ -154,7 +156,7 @@ plot_geo_brownian_motion <- function(miu, sigma, x0, xlim, ylim, step){
     byrow = TRUE
   )
   
-  # disregard the deterministic case time 0
+  # disregard the deterministic case at time 0
   zpoints[1,] <- NA
   
   plot_3d_surface(xpoints = xpoints, ypoints = ypoints, zpoints = zpoints)
@@ -231,7 +233,7 @@ plot_CIR <- function(a, b, sigma, x0, xlim, ylim, step){
     byrow = TRUE
   )
   
-  # disregard the deterministic case time 0
+  # disregard the deterministic case at time 0
   zpoints[1,] <- NA
   
   plot_3d_surface(xpoints = xpoints, ypoints = ypoints, zpoints = zpoints)
