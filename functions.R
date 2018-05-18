@@ -3,24 +3,25 @@
 #' @param xpoints
 #' @param ypoints
 #' @param zpoints
+#' @param xlim
+#' @param ylim
 #' 
 #' @return an rgl scene object
 #' 
-plot_3d_surface <- function(xpoints, ypoints, zpoints){
+plot_3d_surface <- function(xpoints, ypoints, zpoints, xlim, ylim){
   open3d()
   
   # plot the origin point
   plot3d(
     x = 0, y = 0, z = 0,
-    xlim = range(xpoints), ylim = range(ypoints), zlim = c(0, max(zpoints, na.rm = TRUE)),
+    xlim = xlim, ylim = ylim, zlim = c(0, max(zpoints, na.rm = TRUE)),
     size = 5, col = "grey",
     xlab = "t", ylab = "x", zlab = "f(x)"
   )
   
   # plot the probablity density functions
   lapply(
-    # disregard the deterministic case at time 0
-    seq_along(xpoints)[-1],
+    seq_along(xpoints),
     function(i){
       lines3d(
         x = xpoints[i], 
@@ -34,8 +35,7 @@ plot_3d_surface <- function(xpoints, ypoints, zpoints){
   
   # plot the highest points
   lapply(
-    # disregard the deterministic case at time 0
-    seq_along(xpoints)[-1],
+    seq_along(xpoints),
     function(i){
       plot3d(
         x = xpoints[i], 
@@ -85,9 +85,7 @@ plot_trend_stationary <- function(beta, sigma, x0, xlim, ylim, step){
   )
   
   # disregard the deterministic case at time 0
-  zpoints[1,] <- NA
-  
-  plot_3d_surface(xpoints = xpoints, ypoints = ypoints, zpoints = zpoints)
+  plot_3d_surface(xpoints = xpoints[-1], ypoints = ypoints, zpoints = zpoints[-1,], xlim = xlim, ylim = ylim)
 }
 
 
@@ -121,9 +119,7 @@ plot_brownian_motion <- function(miu, sigma, x0, xlim, ylim, step){
   )
   
   # disregard the deterministic case at time 0
-  zpoints[1,] <- NA
-  
-  plot_3d_surface(xpoints = xpoints, ypoints = ypoints, zpoints = zpoints)
+  plot_3d_surface(xpoints = xpoints[-1], ypoints = ypoints, zpoints = zpoints[-1,], xlim = xlim, ylim = ylim)
 }
 
 
@@ -157,9 +153,7 @@ plot_geo_brownian_motion <- function(miu, sigma, x0, xlim, ylim, step){
   )
   
   # disregard the deterministic case at time 0
-  zpoints[1,] <- NA
-  
-  plot_3d_surface(xpoints = xpoints, ypoints = ypoints, zpoints = zpoints)
+  plot_3d_surface(xpoints = xpoints[-1], ypoints = ypoints, zpoints = zpoints[-1,], xlim = xlim, ylim = ylim)
 }
 
 
@@ -194,10 +188,8 @@ plot_vasicek <- function(a, b, sigma, x0, xlim, ylim, step){
     byrow = TRUE
   )
   
-  # disregard the deterministic case time 0
-  zpoints[1,] <- NA
-  
-  plot_3d_surface(xpoints = xpoints, ypoints = ypoints, zpoints = zpoints)
+  # disregard the deterministic case at time 0
+  plot_3d_surface(xpoints = xpoints[-1], ypoints = ypoints, zpoints = zpoints[-1,], xlim = xlim, ylim = ylim)
 }
 
 
@@ -234,7 +226,5 @@ plot_CIR <- function(a, b, sigma, x0, xlim, ylim, step){
   )
   
   # disregard the deterministic case at time 0
-  zpoints[1,] <- NA
-  
-  plot_3d_surface(xpoints = xpoints, ypoints = ypoints, zpoints = zpoints)
+  plot_3d_surface(xpoints = xpoints[-1], ypoints = ypoints, zpoints = zpoints[-1,], xlim = xlim, ylim = ylim)
 }
