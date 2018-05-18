@@ -1,0 +1,117 @@
+---
+title: "Visualization of Stochastic Processes"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+
+library(rgl)
+library(htmlwidgets)
+library(purrr)
+
+setwd("C:/Users/Wenyao/Desktop/R/Visualization-of-Stochastic-Processes")
+source("./functions.R")
+
+plot_size <- 400
+```
+
+<br>
+
+Drag to rotate and scroll to zoom in/out on WebGL-compatable devices.  
+
+### Trend Stationary Model (without Drift)
+$X_t = X_0 + \epsilon_t$
+```{r echo = FALSE, warning = FALSE}
+# Trend Stationary without slope
+tn1 <- plot_trend_stationary(beta = 0, sigma = 1, x0 = 0, xlim = c(0, 5), ylim = c(-5, 5), step = 50)
+
+rglwidget(
+  width = plot_size,
+  height = plot_size,
+) 
+```
+
+<br><br><br><br>
+
+### Trend Stationary Model
+$X_t = X_0 + \beta t + \epsilon_t$
+```{r echo = FALSE, warning = FALSE}
+# Trend Stationary with slope
+tn2 <- plot_trend_stationary(beta = 1, sigma = 1, x0 = 0, xlim = c(0, 5), ylim = c(-5, 5), step = 50)
+
+rglwidget(
+  width = plot_size,
+  height = plot_size,
+) 
+```
+
+<br><br><br><br>
+  
+### Brownian Motion (without Drift)
+$dX_t = \sigma dW_t$
+```{r echo = FALSE, warning = FALSE}
+bm1 <- plot_brownian_motion(miu = 0, sigma = 1, x0 = 0, xlim = c(0, 5), ylim = c(-5, 5), step = 50)
+
+rglwidget(
+  width = plot_size,
+  height = plot_size,
+) 
+```
+
+<br><br><br><br>
+
+### Brownian Motion
+$dX_t = \mu t + \sigma dW_t$
+```{r echo = FALSE, warning = FALSE}
+bm2 <- plot_brownian_motion(miu = 1, sigma = 1, x0 = 0, xlim = c(0, 5), ylim = c(-5, 5), step = 50)
+
+rglwidget(
+  width = plot_size,
+  height = plot_size,
+) 
+```
+
+<br><br><br><br>
+
+### Geometric Brwonian Motion
+$\frac{dX_t}{X_t} = \mu t + \sigma dW_t$
+```{r echo = FALSE, warning = FALSE}
+gb <- plot_geo_brownian_motion(miu = 0.1, sigma = 0.5, x0 = 2.5, xlim = c(0, 5), ylim = c(-1, 5), step = 50)
+
+rglwidget(
+  width = plot_size,
+  height = plot_size,
+) 
+```
+
+<br><br><br><br>
+
+### Vasicek Model
+$dX_t = a(b-X_t)dt + \sigma dW_t$
+```{r echo = FALSE, warning = FALSE}
+vasicek <- plot_vasicek(a = 1, b = 3, sigma = 1, x0 = 0.01, xlim = c(0, 5), ylim = c(-1, 4), step = 50)
+
+rglwidget(
+  width = plot_size,
+  height = plot_size,
+) 
+```
+
+<br><br><br><br>
+
+### Cox–Ingersoll–Ross Model
+$dX_t = a(b-X_t)dt + \sigma \sqrt{X_t}dW_t$
+```{r echo = FALSE, warning = FALSE}
+CIR <- plot_CIR(a = 1, b = 3, sigma = 2, x0 = 0.01, xlim = c(0, 5), ylim = c(-1, 4), step = 50)
+
+rglwidget(
+  width = plot_size,
+  height = plot_size,
+) 
+
+rgl.clear()
+```
+
+<br><br><br><br>
