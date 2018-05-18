@@ -76,7 +76,7 @@ rglwidget(
 <br><br><br><br>
 
 ### Geometric Brwonian Motion
-$\frac{dX_t}{X_t} = \mu t + \sigma dW_t$
+$dX_t = \mu X_t t + \sigma X_t dW_t$
 ```{r echo = FALSE, warning = FALSE}
 gb <- plot_geo_brownian_motion(miu = 0.1, sigma = 0.5, x0 = 2.5, xlim = c(0, 5), ylim = c(-1, 5), step = 50)
 
