@@ -33,7 +33,7 @@ rglwidget(
 ) 
 ```
 
-<br><br><br><br>
+<br><br><br>
 
 ### Trend Stationary Model
 $X_t = X_0 + \beta t + \epsilon_t$
@@ -47,7 +47,7 @@ rglwidget(
 ) 
 ```
 
-<br><br><br><br>
+<br><br><br>
   
 ### Brownian Motion (without Drift)
 $dX_t = \sigma dW_t$
@@ -60,7 +60,7 @@ rglwidget(
 ) 
 ```
 
-<br><br><br><br>
+<br><br><br>
 
 ### Brownian Motion
 $dX_t = \mu t + \sigma dW_t$
@@ -73,7 +73,7 @@ rglwidget(
 ) 
 ```
 
-<br><br><br><br>
+<br><br><br>
 
 ### Geometric Brwonian Motion
 $dX_t = \mu X_t t + \sigma X_t dW_t$
@@ -86,7 +86,7 @@ rglwidget(
 ) 
 ```
 
-<br><br><br><br>
+<br><br><br>
 
 ### Vasicek Model
 $dX_t = a(b-X_t)dt + \sigma dW_t$
@@ -99,7 +99,7 @@ rglwidget(
 ) 
 ```
 
-<br><br><br><br>
+<br><br><br>
 
 ### Cox–Ingersoll–Ross Model
 $dX_t = a(b-X_t)dt + \sigma \sqrt{X_t}dW_t$
@@ -114,4 +114,4 @@ rglwidget(
 rgl.clear()
 ```
 
-<br><br><br><br>
+<br><br><br>
