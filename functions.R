@@ -128,11 +128,11 @@ plot_brownian_motion <- function(miu, sigma, x0, xlim, ylim, step){
   )
   
   # the expected values and the density of expected values
-  mean_ypoints <- miu * xpoints + x0
+  mean_ypoints <- x0 + miu * xpoints
   mean_zpoints <- dnorm(
     x = mean_ypoints,
-    mean = miu * xpoints + x0,
-    sd = sqrt(xpoints - xpoints[1]) * sigma
+    mean = x0 + miu * xpoints,
+    sd = sigma * sqrt(xpoints - xpoints[1])
   )
   
   # disregard the deterministic case at time 0 in plotting
@@ -165,16 +165,28 @@ plot_geo_brownian_motion <- function(miu, sigma, x0, xlim, ylim, step){
   zpoints <- matrix(
     dlnorm(
       x = rep(ypoints, times = step),
-      meanlog = rep(xpoints, each = step) * (miu - 0.5 * sigma^2) + log(x0),
-      sdlog = sqrt(rep(xpoints, each = step) - xpoints[1]) * sigma
+      meanlog = log(x0) + rep(xpoints, each = step) * (miu - 0.5 * sigma^2),
+      sdlog = sigma * sqrt(rep(xpoints, each = step) - xpoints[1])
     ),
     nrow = step,
     ncol = step,
     byrow = TRUE
   )
   
-  # disregard the deterministic case at time 0
-  plot_3d_surface(xpoints = xpoints[-1], ypoints = ypoints, zpoints = zpoints[-1,], xlim = xlim, ylim = ylim)
+  # the expected values and the density of expected values
+  mean_ypoints <- exp(miu * xpoints) * x0
+  mean_zpoints <- dlnorm(
+    x = mean_ypoints,
+    meanlog = log(x0) + xpoints * (miu - 0.5 * sigma^2),
+    sdlog = sigma * sqrt(xpoints - xpoints[1])
+  )
+  
+  # disregard the deterministic case at time 0 in plotting
+  plot_3d_surface(
+    xpoints = xpoints[-1], ypoints = ypoints, zpoints = zpoints[-1,], 
+    mean_ypoints = mean_ypoints[-1], mean_zpoints = mean_zpoints[-1],
+    xlim = xlim, ylim = ylim
+  )
 }
 
 
@@ -209,8 +221,20 @@ plot_vasicek <- function(a, b, sigma, x0, xlim, ylim, step){
     byrow = TRUE
   )
   
-  # disregard the deterministic case at time 0
-  plot_3d_surface(xpoints = xpoints[-1], ypoints = ypoints, zpoints = zpoints[-1,], xlim = xlim, ylim = ylim)
+  # the expected values and the density of expected values
+  mean_ypoints <- x0 * exp(-a * xpoints) + b * (1 - exp(-a * xpoints))
+  mean_zpoints <- dnorm(
+    x = mean_ypoints,
+    mean = x0 * exp(-a * xpoints) + b * (1 - exp(-a * xpoints)),
+    sd = sqrt(sigma^2 / (2 * a) * (1 - exp(-2 * a * xpoints)))
+  )
+  
+  # disregard the deterministic case at time 0 in plotting
+  plot_3d_surface(
+    xpoints = xpoints[-1], ypoints = ypoints, zpoints = zpoints[-1,], 
+    mean_ypoints = mean_ypoints[-1], mean_zpoints = mean_zpoints[-1],
+    xlim = xlim, ylim = ylim
+  )
 }
 
 
@@ -246,6 +270,20 @@ plot_CIR <- function(a, b, sigma, x0, xlim, ylim, step){
     byrow = TRUE
   )
   
-  # disregard the deterministic case at time 0
-  plot_3d_surface(xpoints = xpoints[-1], ypoints = ypoints, zpoints = zpoints[-1,], xlim = xlim, ylim = ylim)
+  # the expected values and the density of expected values
+  mean_ypoints <- x0 * exp(-a * xpoints) + b * (1 - exp(-a * xpoints))
+  mean_zpoints <- dchisq(
+    x = mean_ypoints *
+      2 * (2 * a / ((1 - exp(-a * xpoints)) * sigma^2)),
+    df = 4 * a * b / sigma^2,
+    ncp = 2 * (2 * a / ((1 - exp(-a * xpoints)) * sigma^2)) * 
+      x0 * exp(-a * xpoints)
+  )
+  
+  # disregard the deterministic case at time 0 in plotting
+  plot_3d_surface(
+    xpoints = xpoints[-1], ypoints = ypoints, zpoints = zpoints[-1,], 
+    mean_ypoints = mean_ypoints[-1], mean_zpoints = mean_zpoints[-1],
+    xlim = xlim, ylim = ylim
+  )
 }
