@@ -3,12 +3,14 @@
 #' @param xpoints
 #' @param ypoints
 #' @param zpoints
+#' @param mean_ypoints
+#' @param mean_zpoints
 #' @param xlim
 #' @param ylim
 #' 
 #' @return an rgl scene object
 #' 
-plot_3d_surface <- function(xpoints, ypoints, zpoints, xlim, ylim){
+plot_3d_surface <- function(xpoints, ypoints, zpoints, mean_ypoints, mean_zpoints, xlim, ylim){
   open3d()
   
   # plot the origin point
@@ -33,19 +35,14 @@ plot_3d_surface <- function(xpoints, ypoints, zpoints, xlim, ylim){
     }
   )
   
-  # plot the highest points
-  lapply(
-    seq_along(xpoints),
-    function(i){
-      plot3d(
-        x = xpoints[i], 
-        y = ypoints[which.max(zpoints[i, ])], 
-        z = zpoints[i, which.max(zpoints[i, ])], 
-        size = 5, 
-        col = rainbow(length(xpoints))[i], 
-        add = TRUE
-      )
-    }
+  # plot the expected value points
+  plot3d(
+    x = xpoints,
+    y = mean_ypoints,
+    z = mean_zpoints,
+    size = 5,
+    col = rainbow(length(xpoints)),
+    add = TRUE
   )
   
   # set camera angle
@@ -76,7 +73,7 @@ plot_trend_stationary <- function(beta, sigma, x0, xlim, ylim, step){
   zpoints <- matrix(
     dnorm(
       x = rep(ypoints, times = step),
-      mean = beta * rep(xpoints, each = step) + x0,
+      mean = x0 + beta * rep(xpoints, each = step),
       sd = sigma
     ),
     nrow = step,
@@ -84,8 +81,20 @@ plot_trend_stationary <- function(beta, sigma, x0, xlim, ylim, step){
     byrow = TRUE
   )
   
-  # disregard the deterministic case at time 0
-  plot_3d_surface(xpoints = xpoints[-1], ypoints = ypoints, zpoints = zpoints[-1,], xlim = xlim, ylim = ylim)
+  # the expected values and the density of expected values
+  mean_ypoints <- x0 + beta * xpoints
+  mean_zpoints <- dnorm(
+    x = mean_ypoints,
+    mean = x0 + beta * xpoints,
+    sd = sigma
+  )
+  
+  # disregard the deterministic case at time 0 in plotting
+  plot_3d_surface(
+    xpoints = xpoints[-1], ypoints = ypoints, zpoints = zpoints[-1,], 
+    mean_ypoints = mean_ypoints[-1], mean_zpoints = mean_zpoints[-1],
+    xlim = xlim, ylim = ylim
+  )
 }
 
 
@@ -110,16 +119,31 @@ plot_brownian_motion <- function(miu, sigma, x0, xlim, ylim, step){
   zpoints <- matrix(
     dnorm(
       x = rep(ypoints, times = step),
-      mean = rep(xpoints, each = step) * miu + x0,
-      sd = sqrt(rep(xpoints, each = step) - xpoints[1]) * sigma
+      mean = x0 + miu * rep(xpoints, each = step),
+      sd = sigma * sqrt(rep(xpoints, each = step) - xpoints[1])
     ),
     nrow = step,
     ncol = step,
     byrow = TRUE
   )
   
-  # disregard the deterministic case at time 0
-  plot_3d_surface(xpoints = xpoints[-1], ypoints = ypoints, zpoints = zpoints[-1,], xlim = xlim, ylim = ylim)
+  # the expected values and the density of expected values
+  mean_ypoints <- miu * xpoints + x0
+  mean_zpoints <- dnorm(
+    x = mean_ypoints,
+    mean = miu * xpoints + x0,
+    sd = sqrt(xpoints - xpoints[1]) * sigma
+  )
+  
+  ypoints <- c(ypoints, mean_ypoints)
+  zpoints <- cbind(zpoints, mean_zpoints)
+  
+  # disregard the deterministic case at time 0 in plotting
+  plot_3d_surface(
+    xpoints = xpoints[-1], ypoints = ypoints, zpoints = zpoints[-1,], 
+    mean_ypoints = mean_ypoints[-1], mean_zpoints = mean_zpoints[-1],
+    xlim = xlim, ylim = ylim
+  )
 }
 
 
