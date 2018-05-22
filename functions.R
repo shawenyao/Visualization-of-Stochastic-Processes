@@ -135,9 +135,6 @@ plot_brownian_motion <- function(miu, sigma, x0, xlim, ylim, step){
     sd = sqrt(xpoints - xpoints[1]) * sigma
   )
   
-  ypoints <- c(ypoints, mean_ypoints)
-  zpoints <- cbind(zpoints, mean_zpoints)
-  
   # disregard the deterministic case at time 0 in plotting
   plot_3d_surface(
     xpoints = xpoints[-1], ypoints = ypoints, zpoints = zpoints[-1,], 
