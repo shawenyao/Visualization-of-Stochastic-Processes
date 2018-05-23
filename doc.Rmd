@@ -23,15 +23,15 @@ plot_step <- 50
 
 <br><br>
 
-In this post, we visualize the evolution of stochastic process distribution along the following 3 diemensions
+In this post, we visualize the evolution of stochastic process along the following 3 diemensions:
 
 * $t$: time
 * $x$: the value of the stochastic process at time $t$
 * $f(x)$: the probability density of $x$ at time $t$
 
-Note that expected value at each time $t$ are also highlighted.
+Note that expected value at each time $t$ is also highlighted.
 
-Drag to rotate and scroll to zoom in/out on WebGL-compatable devices.
+Drag to rotate and scroll to zoom in/out on WebGL-compatable devices. Some features like drift, dispersion, mean-reversion and non-negativeness are more clearly visible from a different angle.
 
 <br><br>
 
