@@ -15,6 +15,8 @@ setwd("C:/Users/Wenyao/Desktop/R/Visualization-of-Stochastic-Processes")
 source("./functions.R")
 
 plot_size <- 400
+plot_step <- 50
+
 ```
 
 <br>
@@ -25,7 +27,7 @@ Drag to rotate and scroll to zoom in/out on WebGL-compatable devices.
 $X_t = X_0 + \epsilon_t$
 ```{r echo = FALSE, warning = FALSE}
 # Trend Stationary without slope
-tn1 <- plot_trend_stationary(beta = 0, sigma = 1, x0 = 0, xlim = c(0, 5), ylim = c(-5, 5), step = 50)
+tn1 <- plot_trend_stationary(beta = 0, sigma = 1, x0 = 0, xlim = c(0, 5), ylim = c(-5, 5), step = plot_step)
 
 rglwidget(
   width = plot_size,
@@ -39,7 +41,7 @@ rglwidget(
 $X_t = X_0 + \beta t + \epsilon_t$
 ```{r echo = FALSE, warning = FALSE}
 # Trend Stationary with slope
-tn2 <- plot_trend_stationary(beta = 1, sigma = 1, x0 = 0, xlim = c(0, 5), ylim = c(-5, 5), step = 50)
+tn2 <- plot_trend_stationary(beta = 1, sigma = 1, x0 = 0, xlim = c(0, 5), ylim = c(-5, 5), step = plot_step)
 
 rglwidget(
   width = plot_size,
@@ -65,7 +67,7 @@ rglwidget(
 ### Brownian Motion
 $dX_t = \mu t + \sigma dW_t$
 ```{r echo = FALSE, warning = FALSE}
-bm2 <- plot_brownian_motion(miu = 1, sigma = 1, x0 = 0, xlim = c(0, 5), ylim = c(-5, 5), step = 50)
+bm2 <- plot_brownian_motion(miu = 1, sigma = 1, x0 = 0, xlim = c(0, 5), ylim = c(-5, 5), step = plot_step)
 
 rglwidget(
   width = plot_size,
@@ -78,7 +80,7 @@ rglwidget(
 ### Geometric Brwonian Motion
 $dX_t = \mu X_t t + \sigma X_t dW_t$
 ```{r echo = FALSE, warning = FALSE}
-gb <- plot_geo_brownian_motion(miu = 0.1, sigma = 0.5, x0 = 2.5, xlim = c(0, 5), ylim = c(-1, 5), step = 50)
+gb <- plot_geo_brownian_motion(miu = 0.1, sigma = 0.5, x0 = 2.5, xlim = c(0, 5), ylim = c(-1, 5), step = plot_step)
 
 rglwidget(
   width = plot_size,
@@ -91,7 +93,7 @@ rglwidget(
 ### Vasicek Model
 $dX_t = a(b-X_t)dt + \sigma dW_t$
 ```{r echo = FALSE, warning = FALSE}
-vasicek <- plot_vasicek(a = 1, b = 3, sigma = 1, x0 = 0.01, xlim = c(0, 5), ylim = c(-1, 4), step = 50)
+vasicek <- plot_vasicek(a = 1, b = 3, sigma = 1, x0 = 0.01, xlim = c(0, 5), ylim = c(-1, 4), step = plot_step)
 
 rglwidget(
   width = plot_size,
@@ -104,7 +106,7 @@ rglwidget(
 ### Cox–Ingersoll–Ross Model
 $dX_t = a(b-X_t)dt + \sigma \sqrt{X_t}dW_t$
 ```{r echo = FALSE, warning = FALSE}
-CIR <- plot_CIR(a = 1, b = 3, sigma = 2, x0 = 0.01, xlim = c(0, 5), ylim = c(-1, 4), step = 50)
+CIR <- plot_CIR(a = 1, b = 3, sigma = 2, x0 = 0.01, xlim = c(0, 5), ylim = c(-1, 4), step = plot_step)
 
 rglwidget(
   width = plot_size,
