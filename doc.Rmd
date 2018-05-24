@@ -27,11 +27,11 @@ Stochastic process makes for an excellent source of visualization. In this post,
 
 * $t$: time
 * $x$: the value of the stochastic process at time $t$
-* $f(x)$: the probability density of $x$ at time $t$
+* $f(x)$: the probability density (or the probablity mass in the discrete case) of $x$ at time $t$
 
-Note that the expected value at each time $t$ is also highlighted.
+Note that the expected value (or the closest permissible value in the discrete case) at each time $t$ is also highlighted.
 
-Drag to rotate and scroll to zoom in/out on WebGL-compatable devices. Certain feature like drift, dispersion, mean-reversion or non-negativeness might only be visible from a different angle.
+All plots are meant to be interactive. Drag to rotate and scroll to zoom in/out on WebGL-compatable devices. Certain feature like drift, dispersion, mean-reversion or non-negativeness might be more clearly visible from a different angle.
 
 <br><br>
 
@@ -124,8 +124,25 @@ rglwidget(
   width = plot_size,
   height = plot_size,
 ) 
-
-rgl.clear()
 ```
 
 <br><br><br><br>
+
+### Poisson Point Process
+* $\Delta X_t \equiv X_t - X_{t-} = 0\ or\ 1$
+* $P(X_t - X_s = k \mid F_s) = P(X_t - X_s) = e^{-\lambda (t-s)} \frac{\lambda ^ k (t-s) ^ k}{k\,!}$
+
+```{r echo = FALSE, warning = FALSE}
+poisson <- plot_poisson(lambda = 10, x0 = 0, xlim = c(0,5), ylim = c(0, 50), step = plot_step)
+
+rglwidget(
+  width = plot_size,
+  height = plot_size,
+) 
+```
+
+<br><br><br><br>
+
+```{r echo = FALSE, warning = FALSE}
+rgl.clear()
+```

@@ -1,4 +1,21 @@
-#' plot a 3-D surface
+#' plot the origin point in 3-dimensional space
+#' 
+#' @param xlim
+#' @param ylim
+#' @param zlim
+#' 
+plot_origin <- function(xlim, ylim, zlim){
+  # plot the origin point
+  plot3d(
+    x = 0, y = 0, z = 0,
+    xlim = xlim, ylim = ylim, zlim = zlim,
+    size = 5, col = "grey",
+    xlab = "t", ylab = "x", zlab = "f(x)"
+  )
+}
+
+
+#' plot the evolution of probability density function over time
 #' 
 #' @param xpoints
 #' @param ypoints
@@ -10,18 +27,12 @@
 #' 
 #' @return an rgl scene object
 #' 
-plot_3d_surface <- function(xpoints, ypoints, zpoints, mean_ypoints, mean_zpoints, xlim, ylim){
+plot_pdf <- function(xpoints, ypoints, zpoints, mean_ypoints, mean_zpoints, xlim, ylim){
   open3d()
   
-  # plot the origin point
-  plot3d(
-    x = 0, y = 0, z = 0,
-    xlim = xlim, ylim = ylim, zlim = c(0, max(zpoints, na.rm = TRUE)),
-    size = 5, col = "grey",
-    xlab = "t", ylab = "x", zlab = "f(x)"
-  )
+  plot_origin(xlim = xlim, ylim = ylim, zlim = c(0, max(zpoints, na.rm = TRUE)))
   
-  # plot the probablity density functions
+  # plot the probablity density function over time
   lapply(
     seq_along(xpoints),
     function(i){
@@ -36,13 +47,59 @@ plot_3d_surface <- function(xpoints, ypoints, zpoints, mean_ypoints, mean_zpoint
   )
   
   # plot the expected value points
-  plot3d(
+  points3d(
     x = xpoints,
     y = mean_ypoints,
     z = mean_zpoints,
     size = 5,
-    col = rainbow(length(xpoints)),
-    add = TRUE
+    col = rainbow(length(xpoints))
+  )
+  
+  # set camera angle
+  rgl.viewpoint(userMatrix = rotationMatrix(1.5, -0.5, 0.2, 0.4), zoom = 0.9)
+  
+  return(scene3d())
+}
+
+
+#' plot the evolution of probability mass function over time
+#' 
+#' @param xpoints
+#' @param ypoints
+#' @param zpoints
+#' @param mean_ypoints
+#' @param mean_zpoints
+#' @param xlim
+#' @param ylim
+#' 
+#' @return an rgl scene object
+#' 
+plot_pmf <- function(xpoints, ypoints, zpoints, mean_ypoints, mean_zpoints, xlim, ylim){
+  open3d()
+  
+  plot_origin(xlim = xlim, ylim = ylim, zlim = c(0, max(zpoints, na.rm = TRUE)))
+  
+  # plot the probablity mass function over time
+  lapply(
+    seq_along(xpoints),
+    function(i){
+      points3d(
+        x = xpoints[i], 
+        y = ypoints, 
+        z = zpoints[i,],
+        size = 2, 
+        col = rainbow(length(xpoints))[i]
+      )
+    }
+  )
+  
+  # plot the expected value points
+  points3d(
+    x = xpoints,
+    y = mean_ypoints,
+    z = mean_zpoints,
+    size = 5,
+    col = rainbow(length(xpoints))
   )
   
   # set camera angle
@@ -55,7 +112,7 @@ plot_3d_surface <- function(xpoints, ypoints, zpoints, mean_ypoints, mean_zpoint
 #' visulize the probabiltiy density function of trend stationary model
 #' 
 #' @description 
-#' X(t) = X(0) + beta * dt + epsilon(t)
+#' X(t) = X(0) + beta * t + epsilon(t)
 #' 
 #' @param beta slope
 #' @param sigma standard deviation of error term
@@ -67,7 +124,6 @@ plot_3d_surface <- function(xpoints, ypoints, zpoints, mean_ypoints, mean_zpoint
 #' @return an rgl scene object
 #' 
 plot_trend_stationary <- function(beta, sigma, x0, xlim, ylim, step){
-  
   xpoints <- seq(from = xlim[1], to = xlim[2], length = step)
   ypoints <- seq(from = ylim[1], to = ylim[2], length = step)
   zpoints <- matrix(
@@ -90,7 +146,7 @@ plot_trend_stationary <- function(beta, sigma, x0, xlim, ylim, step){
   )
   
   # disregard the deterministic case at time 0 in plotting
-  plot_3d_surface(
+  plot_pdf(
     xpoints = xpoints[-1], ypoints = ypoints, zpoints = zpoints[-1,], 
     mean_ypoints = mean_ypoints[-1], mean_zpoints = mean_zpoints[-1],
     xlim = xlim, ylim = ylim
@@ -113,7 +169,6 @@ plot_trend_stationary <- function(beta, sigma, x0, xlim, ylim, step){
 #' @return an rgl scene object
 #' 
 plot_brownian_motion <- function(miu, sigma, x0, xlim, ylim, step){
-  
   xpoints <- seq(from = xlim[1], to = xlim[2], length = step)
   ypoints <- seq(from = ylim[1], to = ylim[2], length = step)
   zpoints <- matrix(
@@ -136,7 +191,7 @@ plot_brownian_motion <- function(miu, sigma, x0, xlim, ylim, step){
   )
   
   # disregard the deterministic case at time 0 in plotting
-  plot_3d_surface(
+  plot_pdf(
     xpoints = xpoints[-1], ypoints = ypoints, zpoints = zpoints[-1,], 
     mean_ypoints = mean_ypoints[-1], mean_zpoints = mean_zpoints[-1],
     xlim = xlim, ylim = ylim
@@ -159,7 +214,6 @@ plot_brownian_motion <- function(miu, sigma, x0, xlim, ylim, step){
 #' @return an rgl scene object
 #' 
 plot_geo_brownian_motion <- function(miu, sigma, x0, xlim, ylim, step){
-  
   xpoints <- seq(from = xlim[1], to = xlim[2], length = step)
   ypoints <- seq(from = ylim[1], to = ylim[2], length = step)
   zpoints <- matrix(
@@ -182,7 +236,7 @@ plot_geo_brownian_motion <- function(miu, sigma, x0, xlim, ylim, step){
   )
   
   # disregard the deterministic case at time 0 in plotting
-  plot_3d_surface(
+  plot_pdf(
     xpoints = xpoints[-1], ypoints = ypoints, zpoints = zpoints[-1,], 
     mean_ypoints = mean_ypoints[-1], mean_zpoints = mean_zpoints[-1],
     xlim = xlim, ylim = ylim
@@ -206,7 +260,6 @@ plot_geo_brownian_motion <- function(miu, sigma, x0, xlim, ylim, step){
 #' @return an rgl scene object
 #' 
 plot_vasicek <- function(a, b, sigma, x0, xlim, ylim, step){
-  
   xpoints <- seq(from = xlim[1], to = xlim[2], length = step)
   ypoints <- seq(from = ylim[1], to = ylim[2], length = step)
   zpoints <- matrix(
@@ -230,7 +283,7 @@ plot_vasicek <- function(a, b, sigma, x0, xlim, ylim, step){
   )
   
   # disregard the deterministic case at time 0 in plotting
-  plot_3d_surface(
+  plot_pdf(
     xpoints = xpoints[-1], ypoints = ypoints, zpoints = zpoints[-1,], 
     mean_ypoints = mean_ypoints[-1], mean_zpoints = mean_zpoints[-1],
     xlim = xlim, ylim = ylim
@@ -254,7 +307,6 @@ plot_vasicek <- function(a, b, sigma, x0, xlim, ylim, step){
 #' @return an rgl scene object
 #' 
 plot_CIR <- function(a, b, sigma, x0, xlim, ylim, step){
-  
   xpoints <- seq(from = xlim[1], to = xlim[2], length = step)
   ypoints <- seq(from = ylim[1], to = ylim[2], length = step)
   zpoints <- matrix(
@@ -281,7 +333,48 @@ plot_CIR <- function(a, b, sigma, x0, xlim, ylim, step){
   )
   
   # disregard the deterministic case at time 0 in plotting
-  plot_3d_surface(
+  plot_pdf(
+    xpoints = xpoints[-1], ypoints = ypoints, zpoints = zpoints[-1,], 
+    mean_ypoints = mean_ypoints[-1], mean_zpoints = mean_zpoints[-1],
+    xlim = xlim, ylim = ylim
+  )
+}
+
+
+#' visulize the probabiltiy mass function of possion process
+#' 
+#' @description 
+#' P(X_t - X_s = k) = exp(-lambda(t-s) * lambda^k * (t - s)^k / k!)
+#' 
+#' @param lambda the intensity of the possion process
+#' @param x0 initial value at time 0
+#' @param xlim
+#' @param ylim
+#' @param step
+#' 
+#' @return an rgl scene object
+plot_poisson <- function(lambda, x0, xlim, ylim, step){
+  xpoints <- seq(from = xlim[1], to = xlim[2], length = step)
+  ypoints <- seq(from = ylim[1], to = ylim[2], by = 1)
+  zpoints <- matrix(
+    dpois(
+      x = rep(ypoints, times = step),
+      lambda = rep(xpoints, each = length(ypoints)) * lambda
+    ),
+    nrow = step,
+    ncol = length(ypoints),
+    byrow = TRUE
+  )
+  
+  # the expected values (or the closet permissible values) and the probability mass
+  mean_ypoints <- (xpoints * lambda) %>% round(0)
+  mean_zpoints <- dpois(
+    x = mean_ypoints,
+    lambda = xpoints * lambda
+  )
+  
+  # disregard the deterministic case at time 0 in plotting
+  plot_pmf(
     xpoints = xpoints[-1], ypoints = ypoints, zpoints = zpoints[-1,], 
     mean_ypoints = mean_ypoints[-1], mean_zpoints = mean_zpoints[-1],
     xlim = xlim, ylim = ylim
