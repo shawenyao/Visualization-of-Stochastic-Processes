@@ -129,9 +129,7 @@ rglwidget(
 <br><br><br><br>
 
 ### Poisson Point Process
-* $\Delta X_t \equiv X_t - X_{t-} = 0\ or\ 1$
-* $P(X_t - X_s = k \mid F_s) = P(X_t - X_s) = e^{-\lambda (t-s)} \frac{\lambda ^ k (t-s) ^ k}{k\,!}$
-
+$P(X_t - X_s = k \mid F_s) = P(X_t - X_s) = e^{-\lambda (t-s)} \frac{\lambda ^ k (t-s) ^ k}{k\,!}$
 ```{r echo = FALSE, warning = FALSE}
 poisson <- plot_poisson(lambda = 10, x0 = 0, xlim = c(0,5), ylim = c(0, 50), step = plot_step)
 
