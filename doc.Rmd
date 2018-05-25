@@ -43,7 +43,7 @@ tn1 <- plot_trend_stationary(beta = 0, sigma = 1, x0 = 0, xlim = c(0, 5), ylim =
 
 rglwidget(
   width = plot_size,
-  height = plot_size,
+  height = plot_size
 ) 
 ```
 
@@ -57,7 +57,7 @@ tn2 <- plot_trend_stationary(beta = 1, sigma = 1, x0 = 0, xlim = c(0, 5), ylim =
 
 rglwidget(
   width = plot_size,
-  height = plot_size,
+  height = plot_size
 ) 
 ```
 
@@ -70,7 +70,7 @@ bm1 <- plot_brownian_motion(miu = 0, sigma = 1, x0 = 0, xlim = c(0, 5), ylim = c
 
 rglwidget(
   width = plot_size,
-  height = plot_size,
+  height = plot_size
 ) 
 ```
 
@@ -83,20 +83,33 @@ bm2 <- plot_brownian_motion(miu = 1, sigma = 1, x0 = 0, xlim = c(0, 5), ylim = c
 
 rglwidget(
   width = plot_size,
-  height = plot_size,
+  height = plot_size
 ) 
 ```
 
 <br><br><br><br>
 
-### Geometric Brwonian Motion
+### Brownian Bridge
+$X_t = \frac{t}{T} X_T + \frac{T-t}{T} (X_0 + \sigma W_t)$
+```{r echo = FALSE, warning = FALSE}
+bb <- plot_brownian_bridge(sigma = 1, initial_value = 5, terminal_value = 0, term = 5, xlim = c(0, 5), ylim = c(0, 5), step = plot_step)
+
+rglwidget(
+  width = plot_size,
+  height = plot_size
+) 
+```
+
+<br><br><br><br>
+
+### Geometric Brownian Motion
 $dX_t = \mu X_t t + \sigma X_t dW_t$
 ```{r echo = FALSE, warning = FALSE}
 gb <- plot_geo_brownian_motion(miu = 0.1, sigma = 0.5, x0 = 2.5, xlim = c(0, 5), ylim = c(-1, 5), step = plot_step)
 
 rglwidget(
   width = plot_size,
-  height = plot_size,
+  height = plot_size
 ) 
 ```
 
@@ -109,7 +122,7 @@ vasicek <- plot_vasicek(a = 1, b = 3, sigma = 1, x0 = 0.01, xlim = c(0, 5), ylim
 
 rglwidget(
   width = plot_size,
-  height = plot_size,
+  height = plot_size
 ) 
 ```
 
@@ -122,21 +135,34 @@ CIR <- plot_CIR(a = 1, b = 3, sigma = 2, x0 = 0.01, xlim = c(0, 5), ylim = c(-1,
 
 rglwidget(
   width = plot_size,
-  height = plot_size,
+  height = plot_size
 ) 
 ```
 
 <br><br><br><br>
 
-### Poisson Point Process
-$P(X_t - X_s = k \mid F_s) = P(X_t - X_s) = e^{-\lambda (t-s)} \frac{\lambda ^ k (t-s) ^ k}{k\,!}$
+### Poisson Process
+$P(X_t = k) = e^{-\lambda t} \frac{{(\lambda t)} ^ k}{k\,!}$
 ```{r echo = FALSE, warning = FALSE}
-poisson <- plot_poisson(lambda = 10, x0 = 0, xlim = c(0,5), ylim = c(0, 50), step = plot_step)
+poisson <- plot_poisson(lambda = 10, x0 = 0, xlim = c(0, 5), ylim = c(-5, 50), step = plot_step)
 
 rglwidget(
   width = plot_size,
-  height = plot_size,
-) 
+  height = plot_size
+)
+```
+
+<br><br><br><br>
+
+### Compensated Poisson Process
+$X_t = N_t - \lambda t$
+```{r echo = FALSE, warning = FALSE}
+comp_poisson <- plot_comp_poisson(lambda = 10, x0 = 0, xlim = c(0, 5), ylim = c(-25, 25), step = plot_step)
+
+rglwidget(
+  width = plot_size,
+  height = plot_size
+)
 ```
 
 <br><br><br><br>

@@ -141,7 +141,7 @@ plot_trend_stationary <- function(beta, sigma, x0, xlim, ylim, step){
   mean_ypoints <- x0 + beta * xpoints
   mean_zpoints <- dnorm(
     x = mean_ypoints,
-    mean = x0 + beta * xpoints,
+    mean = mean_ypoints,
     sd = sigma
   )
   
@@ -186,14 +186,70 @@ plot_brownian_motion <- function(miu, sigma, x0, xlim, ylim, step){
   mean_ypoints <- x0 + miu * xpoints
   mean_zpoints <- dnorm(
     x = mean_ypoints,
-    mean = x0 + miu * xpoints,
+    mean = mean_ypoints,
     sd = sigma * sqrt(xpoints - xpoints[1])
   )
+  
+  # avoid plotting extremely large probability density
+  mean_zpoints[mean_zpoints > max(zpoints, na.rm = TRUE)] <- NA
   
   # disregard the deterministic case at time 0 in plotting
   plot_pdf(
     xpoints = xpoints[-1], ypoints = ypoints, zpoints = zpoints[-1,], 
     mean_ypoints = mean_ypoints[-1], mean_zpoints = mean_zpoints[-1],
+    xlim = xlim, ylim = ylim
+  )
+}
+
+
+#' visulize the probabiltiy density function of Brownian Bridge process
+#' 
+#' @description 
+#' X(t) = t/T * X(T) + (T-t)/T * (X(0) + sigma * W(t))
+#' 
+#' @param sigma instantaneous volatility
+#' @param initial_value
+#' @param terminal_value 
+#' @param term
+#' @param xlim
+#' @param ylim
+#' @param step
+#' 
+#' @return an rgl scene object
+#' 
+plot_brownian_bridge <- function(sigma, initial_value, terminal_value, term, xlim, ylim, step){
+  xpoints <- seq(from = xlim[1], to = xlim[2], length = step)
+  ypoints <- seq(from = ylim[1], to = ylim[2], length = step)
+  zpoints <- matrix(
+    dnorm(
+      x = rep(ypoints, times = step),
+      mean = (term - rep(xpoints, each = step)) / term * initial_value +
+        rep(xpoints, each = step) / term * terminal_value,
+      sd = sigma * (term - rep(xpoints, each = step)) / term * sqrt(rep(xpoints, each = step) - xpoints[1])
+    ),
+    nrow = step,
+    ncol = step,
+    byrow = TRUE
+  )
+  
+  # the expected values and the density of expected values
+  mean_ypoints <- (term - xpoints) / term * initial_value + xpoints / term * terminal_value
+  mean_zpoints <- dnorm(
+    x = mean_ypoints,
+    mean = mean_ypoints,
+    sd = sigma * (term - xpoints) / term * sqrt(xpoints - xpoints[1])
+  )
+  
+  # avoid plotting extremely large probability density
+  zpoints[zpoints > 2] <- NA
+  mean_zpoints[mean_zpoints > 2] <- NA
+  
+  # avoid plotting
+  
+  # disregard the deterministic case at time 0 and T in plotting
+  plot_pdf(
+    xpoints = xpoints[c(-1, -length(xpoints))], ypoints = ypoints, zpoints = zpoints[c(-1, -length(xpoints)),], 
+    mean_ypoints = mean_ypoints, mean_zpoints = mean_zpoints,
     xlim = xlim, ylim = ylim
   )
 }
@@ -278,7 +334,7 @@ plot_vasicek <- function(a, b, sigma, x0, xlim, ylim, step){
   mean_ypoints <- x0 * exp(-a * xpoints) + b * (1 - exp(-a * xpoints))
   mean_zpoints <- dnorm(
     x = mean_ypoints,
-    mean = x0 * exp(-a * xpoints) + b * (1 - exp(-a * xpoints)),
+    mean = mean_ypoints,
     sd = sqrt(sigma^2 / (2 * a) * (1 - exp(-2 * a * xpoints)))
   )
   
@@ -325,11 +381,9 @@ plot_CIR <- function(a, b, sigma, x0, xlim, ylim, step){
   # the expected values and the density of expected values
   mean_ypoints <- x0 * exp(-a * xpoints) + b * (1 - exp(-a * xpoints))
   mean_zpoints <- dchisq(
-    x = mean_ypoints *
-      2 * (2 * a / ((1 - exp(-a * xpoints)) * sigma^2)),
+    x = mean_ypoints * 2 * (2 * a / ((1 - exp(-a * xpoints)) * sigma^2)),
     df = 4 * a * b / sigma^2,
-    ncp = 2 * (2 * a / ((1 - exp(-a * xpoints)) * sigma^2)) * 
-      x0 * exp(-a * xpoints)
+    ncp = 2 * (2 * a / ((1 - exp(-a * xpoints)) * sigma^2)) * x0 * exp(-a * xpoints)
   )
   
   # disregard the deterministic case at time 0 in plotting
@@ -366,10 +420,57 @@ plot_poisson <- function(lambda, x0, xlim, ylim, step){
     byrow = TRUE
   )
   
+  # avoid plotting points where probability mass is 0
+  zpoints[zpoints==0] <- NA
+  
   # the expected values (or the closet permissible values) and the probability mass
   mean_ypoints <- (xpoints * lambda) %>% round(0)
   mean_zpoints <- dpois(
     x = mean_ypoints,
+    lambda = xpoints * lambda
+  )
+  
+  # disregard the deterministic case at time 0 in plotting
+  plot_pmf(
+    xpoints = xpoints[-1], ypoints = ypoints, zpoints = zpoints[-1,], 
+    mean_ypoints = mean_ypoints[-1], mean_zpoints = mean_zpoints[-1],
+    xlim = xlim, ylim = ylim
+  )
+}
+
+
+#' visulize the probabiltiy mass function of compensated possion process
+#' 
+#' @description 
+#' X_t = N_t - lambda * t
+#' 
+#' @param lambda the intensity of the possion process
+#' @param x0 initial value at time 0
+#' @param xlim
+#' @param ylim
+#' @param step
+#' 
+#' @return an rgl scene object
+plot_comp_poisson <- function(lambda, x0, xlim, ylim, step){
+  xpoints <- seq(from = xlim[1], to = xlim[2], length = step)
+  ypoints <- seq(from = ylim[1], to = ylim[2], by = 1)
+  zpoints <- matrix(
+    dpois(
+      x = (rep(ypoints, times = step) + rep(xpoints, each = length(ypoints)) * lambda) %>% round(0),
+      lambda = rep(xpoints, each = length(ypoints)) * lambda
+    ),
+    nrow = step,
+    ncol = length(ypoints),
+    byrow = TRUE
+  )
+  
+  # avoid plotting points where probability mass is 0
+  zpoints[zpoints==0] <- NA
+  
+  # the expected values (or the closet permissible values) and the probability mass
+  mean_ypoints <- rep(0, times = step)
+  mean_zpoints <- dpois(
+    x = (mean_ypoints + xpoints * lambda) %>% round(0),
     lambda = xpoints * lambda
   )
   
