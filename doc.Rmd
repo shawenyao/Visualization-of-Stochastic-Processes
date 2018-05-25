@@ -142,7 +142,7 @@ rglwidget(
 <br><br><br><br>
 
 ### Poisson Process
-$P(X_t = k) = e^{-\lambda t} \frac{{(\lambda t)} ^ k}{k\,!}$
+$P(X_t = k) = e^{-\lambda t} \frac{(\lambda t) ^ k}{k\,!}$
 ```{r echo = FALSE, warning = FALSE}
 poisson <- plot_poisson(lambda = 10, x0 = 0, xlim = c(0, 5), ylim = c(-5, 50), step = plot_step)
 
