@@ -146,9 +146,12 @@ plot_trend_stationary <- function(beta, sigma, x0, xlim, ylim, step){
   )
   
   # disregard the deterministic case at time 0 in plotting
+  zpoints[1, ] <- NA
+  mean_zpoints[1] <- NA
+  
   plot_pdf(
-    xpoints = xpoints[-1], ypoints = ypoints, zpoints = zpoints[-1,], 
-    mean_ypoints = mean_ypoints[-1], mean_zpoints = mean_zpoints[-1],
+    xpoints = xpoints, ypoints = ypoints, zpoints = zpoints, 
+    mean_ypoints = mean_ypoints, mean_zpoints = mean_zpoints,
     xlim = xlim, ylim = ylim
   )
 }
@@ -194,9 +197,12 @@ plot_brownian_motion <- function(miu, sigma, x0, xlim, ylim, step){
   mean_zpoints[mean_zpoints > max(zpoints, na.rm = TRUE)] <- NA
   
   # disregard the deterministic case at time 0 in plotting
+  zpoints[1, ] <- NA
+  mean_zpoints[1] <- NA
+  
   plot_pdf(
-    xpoints = xpoints[-1], ypoints = ypoints, zpoints = zpoints[-1,], 
-    mean_ypoints = mean_ypoints[-1], mean_zpoints = mean_zpoints[-1],
+    xpoints = xpoints, ypoints = ypoints, zpoints = zpoints, 
+    mean_ypoints = mean_ypoints, mean_zpoints = mean_zpoints,
     xlim = xlim, ylim = ylim
   )
 }
@@ -244,11 +250,11 @@ plot_brownian_bridge <- function(sigma, initial_value, terminal_value, term, xli
   zpoints[zpoints > 2] <- NA
   mean_zpoints[mean_zpoints > 2] <- NA
   
-  # avoid plotting
-  
   # disregard the deterministic case at time 0 and T in plotting
+  zpoints[c(1,step), ] <- NA
+  
   plot_pdf(
-    xpoints = xpoints[c(-1, -length(xpoints))], ypoints = ypoints, zpoints = zpoints[c(-1, -length(xpoints)),], 
+    xpoints = xpoints, ypoints = ypoints, zpoints = zpoints, 
     mean_ypoints = mean_ypoints, mean_zpoints = mean_zpoints,
     xlim = xlim, ylim = ylim
   )
@@ -292,9 +298,12 @@ plot_geo_brownian_motion <- function(miu, sigma, x0, xlim, ylim, step){
   )
   
   # disregard the deterministic case at time 0 in plotting
+  zpoints[1, ] <- NA
+  mean_zpoints[1] <- NA
+  
   plot_pdf(
-    xpoints = xpoints[-1], ypoints = ypoints, zpoints = zpoints[-1,], 
-    mean_ypoints = mean_ypoints[-1], mean_zpoints = mean_zpoints[-1],
+    xpoints = xpoints, ypoints = ypoints, zpoints = zpoints, 
+    mean_ypoints = mean_ypoints, mean_zpoints = mean_zpoints,
     xlim = xlim, ylim = ylim
   )
 }
@@ -339,9 +348,12 @@ plot_vasicek <- function(a, b, sigma, x0, xlim, ylim, step){
   )
   
   # disregard the deterministic case at time 0 in plotting
+  zpoints[1, ] <- NA
+  mean_zpoints[1] <- NA
+  
   plot_pdf(
-    xpoints = xpoints[-1], ypoints = ypoints, zpoints = zpoints[-1,], 
-    mean_ypoints = mean_ypoints[-1], mean_zpoints = mean_zpoints[-1],
+    xpoints = xpoints, ypoints = ypoints, zpoints = zpoints, 
+    mean_ypoints = mean_ypoints, mean_zpoints = mean_zpoints,
     xlim = xlim, ylim = ylim
   )
 }
@@ -387,9 +399,13 @@ plot_CIR <- function(a, b, sigma, x0, xlim, ylim, step){
   )
   
   # disregard the deterministic case at time 0 in plotting
+  zpoints[1, ] <- NA
+  mean_zpoints[1] <- NA
+  
+  # disregard the deterministic case at time 0 in plotting
   plot_pdf(
-    xpoints = xpoints[-1], ypoints = ypoints, zpoints = zpoints[-1,], 
-    mean_ypoints = mean_ypoints[-1], mean_zpoints = mean_zpoints[-1],
+    xpoints = xpoints, ypoints = ypoints, zpoints = zpoints, 
+    mean_ypoints = mean_ypoints, mean_zpoints = mean_zpoints,
     xlim = xlim, ylim = ylim
   )
 }
@@ -431,9 +447,12 @@ plot_poisson <- function(lambda, x0, xlim, ylim, step){
   )
   
   # disregard the deterministic case at time 0 in plotting
+  zpoints[1, ] <- NA
+  mean_zpoints[1] <- NA
+  
   plot_pmf(
-    xpoints = xpoints[-1], ypoints = ypoints, zpoints = zpoints[-1,], 
-    mean_ypoints = mean_ypoints[-1], mean_zpoints = mean_zpoints[-1],
+    xpoints = xpoints, ypoints = ypoints, zpoints = zpoints, 
+    mean_ypoints = mean_ypoints, mean_zpoints = mean_zpoints,
     xlim = xlim, ylim = ylim
   )
 }
@@ -464,9 +483,6 @@ plot_comp_poisson <- function(lambda, x0, xlim, ylim, step){
     byrow = TRUE
   )
   
-  # avoid plotting points where probability mass is 0
-  zpoints[zpoints==0] <- NA
-  
   # the expected values (or the closet permissible values) and the probability mass
   mean_ypoints <- rep(0, times = step)
   mean_zpoints <- dpois(
@@ -474,10 +490,16 @@ plot_comp_poisson <- function(lambda, x0, xlim, ylim, step){
     lambda = xpoints * lambda
   )
   
+  # avoid plotting points where probability mass is 0
+  zpoints[zpoints==0] <- NA
+  
   # disregard the deterministic case at time 0 in plotting
+  zpoints[1, ] <- NA
+  mean_zpoints[1] <- NA
+  
   plot_pmf(
-    xpoints = xpoints[-1], ypoints = ypoints, zpoints = zpoints[-1,], 
-    mean_ypoints = mean_ypoints[-1], mean_zpoints = mean_zpoints[-1],
+    xpoints = xpoints, ypoints = ypoints, zpoints = zpoints, 
+    mean_ypoints = mean_ypoints, mean_zpoints = mean_zpoints,
     xlim = xlim, ylim = ylim
   )
 }

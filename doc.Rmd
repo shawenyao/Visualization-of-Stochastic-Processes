@@ -64,7 +64,7 @@ rglwidget(
 ### Brownian Motion (without Drift)
 $dX_t = \sigma dW_t$
 ```{r echo = FALSE, warning = FALSE}
-bm1 <- plot_brownian_motion(miu = 0, sigma = 1, x0 = 0, xlim = c(0, 5), ylim = c(-5, 5), step = 50)
+bm1 <- plot_brownian_motion(miu = 0, sigma = 1, x0 = 0, xlim = c(0, 5), ylim = c(-5, 5), step = plot_step)
 
 rglwidget(
   width = plot_size,
