@@ -8,7 +8,6 @@ date: "`r format(Sys.time(), '%Y-%m-%d')`"
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 
-
 library(rgl)
 library(htmlwidgets)
 library(purrr)
@@ -18,12 +17,11 @@ source("./functions.R")
 
 plot_size <- 400
 plot_step <- 50
-
 ```
 
 <br><br>
 
-Stochastic process makes for an excellent source of visualization. In this post, I show the dynamics of stochastic processes along the three physical diemensions:
+Stochastic process makes for an excellent source of visualization. In this demo, I show the dynamics of stochastic processes along the three physical diemensions:
 
 * $t$: time
 * $x$: the value of the stochastic process at time $t$
