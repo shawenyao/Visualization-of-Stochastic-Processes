@@ -90,7 +90,7 @@ rglwidget(
 ### Brownian Bridge
 $X_t = \frac{t}{T} X_T + \frac{T-t}{T} (X_0 + \sigma W_t)$
 ```{r echo = FALSE, warning = FALSE}
-bb <- plot_brownian_bridge(sigma = 1, initial_value = 5, terminal_value = 0, term = 5, xlim = c(0, 5), ylim = c(0, 5), step = plot_step)
+bb <- plot_brownian_bridge(sigma = 1, initial_value = 5, terminal_value = 0, term = 5, xlim = c(0, 5), ylim = c(0, 6), step = plot_step)
 
 rglwidget(
   width = plot_size,
