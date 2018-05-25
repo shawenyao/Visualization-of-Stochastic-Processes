@@ -1,8 +1,6 @@
 ---
 title: "Visualization of Stochastic Processes"
-output: 
-  html_document:
-    keep_md: true
+output: html_document
 author: Wenyao Sha
 date: "`r format(Sys.time(), '%Y-%m-%d')`"
 ---
