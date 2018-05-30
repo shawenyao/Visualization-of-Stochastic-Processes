@@ -166,5 +166,5 @@ rglwidget(
 <br><br><br><br>
 
 ```{r echo = FALSE, warning = FALSE}
-rgl.clear()
+rgl.quit()
 ```
