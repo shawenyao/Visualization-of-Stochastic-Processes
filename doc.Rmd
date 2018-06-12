@@ -1,12 +1,21 @@
 ---
 title: "Visualization of Stochastic Processes"
-output: html_document
 author: Wenyao Sha
 date: "`r format(Sys.time(), '%Y-%m-%d')`"
+output: 
+  html_document:
+    includes:
+        in_header: myheader.html
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+
+# create myheader.html to include favicon and apple-touch-icon
+header_file <- file("myheader.html")
+writeLines('<link rel="shortcut icon" href="images/favicon.png" type="image/x-icon">', header_file)
+writeLines('<link rel="apple-touch-icon" href="images/apple-touch-icon.png" sizes="128x128">', header_file)
+close(header_file)
 
 library(rgl)
 library(htmlwidgets)
