@@ -1,3 +1,3 @@
 # Visualization of Stochastic Processes
 
-Click here https://shawenyao.github.io/Visualization-of-Stochastic-Processes/doc.html
+Click here https://www.shawenyao.com/Visualization-of-Stochastic_Processes/
